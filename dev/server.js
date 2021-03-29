@@ -1,5 +1,10 @@
-const http = require('http');
-const app = require('./app');
+import { createServer } from 'http';
+import app, { use, set } from './app';
+
+let __dirname = "../";
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -13,7 +18,7 @@ const normalizePort = val => {
   return false;
 };
 const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+set('port', port);
 
 const errorHandler = error => {
   if (error.syscall !== 'listen') {
@@ -35,7 +40,7 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app);
+const server = createServer(app);
 
 server.on('error', errorHandler);
 server.on('listening', () => {
