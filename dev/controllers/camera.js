@@ -1,11 +1,13 @@
 const uuid = require('uuid/v1');
 const Camera = require('../models/Camera');
 
+const pathImages = '/images/';
+
 exports.getAllCameras = (req, res, next) => {
   Camera.find().then(
     (cameras) => {
       const mappedCameras = cameras.map((camera) => {
-        camera.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + camera.imageUrl;
+        camera.imageUrl = req.protocol + '://' + req.get('host') + pathImages + camera.imageUrl;
         return camera;
       });
       res.status(200).json(mappedCameras);
@@ -23,7 +25,7 @@ exports.getOneCamera = (req, res, next) => {
       if (!camera) {
         return res.status(404).send(new Error('Camera not found!'));
       }
-      camera.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + camera.imageUrl;
+      camera.imageUrl = req.protocol + '://' + req.get('host') + pathImages + camera.imageUrl;
       res.status(200).json(camera);
     }
   ).catch(
@@ -64,7 +66,7 @@ exports.orderCameras = (req, res, next) => {
           if (!camera) {
             reject('Camera not found: ' + productId);
           }
-          camera.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + camera.imageUrl;
+          camera.imageUrl = req.protocol + '://' + req.get('host') + pathImages + camera.imageUrl;
           resolve(camera);
         }
       ).catch(

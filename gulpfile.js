@@ -21,7 +21,7 @@ const gulp = require('gulp');
 ////import { task, src, dest as _dest, series, watch } from 'gulp'; // NOTE _dest parce on utilie dest plus loin
 ////const { task, src, dest } = require('gulp');
 // Commande pour installer
-const cmdInstall = "npm install --save-dev";
+const cmdInstall = 'npm install --save-dev';
 
 /***************************************************
  ** Objet Plugin                                   *
@@ -29,16 +29,16 @@ const cmdInstall = "npm install --save-dev";
 
 // Création d'un object Plugin
 /**
- * 
+ *
  * @param {string} name Nom du plugin
  * @param {boolean} installed True si installé, False sinon
  * @param {*} plugin Liste des fonctions du plugin
  */
 const Plugin = function (name, installed, plugin) {
-    this.name      = name;
+    this.name = name;
     this.installed = installed;
-    this.plugin    = plugin;
-}
+    this.plugin = plugin;
+};
 
 /**
  * Récupère le nom du plugin
@@ -46,7 +46,7 @@ const Plugin = function (name, installed, plugin) {
  */
 Plugin.prototype.getName = function () {
     return this.name;
-}
+};
 
 /**
  * Permet de savoir si le plugin est installé
@@ -54,7 +54,7 @@ Plugin.prototype.getName = function () {
  */
 Plugin.prototype.isInstalled = function () {
     return this.installed;
-}
+};
 
 /**
  * Récupère le plugin en lui-même pour utiliser ses méthodes
@@ -62,7 +62,7 @@ Plugin.prototype.isInstalled = function () {
  */
 Plugin.prototype.get = function () {
     return this.plugin;
-}
+};
 
 /****************************************************
  ** Objet ListPlugins                               *
@@ -73,7 +73,7 @@ const ListPlugins = function () {
     this.lesPluginsNames = Array.from(arguments);
     this.lesPlugins = [];
     this.launch();
-}
+};
 
 /**
  * On lance tous les require et on les ajoute dans un tableau
@@ -88,9 +88,11 @@ ListPlugins.prototype.launch = function () {
     let tabPluginsToInstall = [];
     // Pour chaque plugins
     this.lesPluginsNames.forEach(function (unPlugin) {
-        try { // On fait le require et on l'ajoute dans le tableau
+        try {
+            // On fait le require et on l'ajoute dans le tableau
             lesPlugins.push(new Plugin(unPlugin.replace(/gulp-/i, ''), true, require(unPlugin)));
-        } catch (e) { // Si une erreur survient
+        } catch (e) {
+            // Si une erreur survient
             // On détecte si le module est installé ou non
             if (e.code === 'MODULE_NOT_FOUND') {
                 // On affiche un message d'erreur avec une commande pour ajouter le module manquant
@@ -99,18 +101,18 @@ ListPlugins.prototype.launch = function () {
                 tabPluginsToInstall.push(unPlugin);
             } else {
                 // Si une autre erreur survient, on stop complètement le script
-                throw `Erreur ${e.code} avec le module ${unPlugin} !`
+                throw `Erreur ${e.code} avec le module ${unPlugin} !`;
             }
             // On ajoute tout de même le module dans le tableau en précisant bien que le module n'est pas installé
             // Ca permettra que le script fonctionne tant qu'on n'appelle pas de tache nécessitant celui ci
             lesPlugins.push(new Plugin(unPlugin.replace(/gulp-/i, ''), false, null));
-        };
+        }
     });
     if (tabPluginsToInstall.length > 0) {
         // On affiche la commande pour installer tous les plugins manquant
         console.log(color.red(`|-- `) + color.green(`${cmdInstall} ${tabPluginsToInstall.join(' ')}`));
     }
-}
+};
 
 /**
  * Recherche un plugin et indique s'il est installé ou non
@@ -124,7 +126,7 @@ ListPlugins.prototype.find = function (unPluginName) {
         }
     }
     return false;
-}
+};
 
 /**
  * Récupère le module demandé
@@ -138,7 +140,7 @@ ListPlugins.prototype.get = function (unPluginName) {
         }
     }
     return null;
-}
+};
 
 /****************************************************
  ** Liste des variables pour configurer les chemins *
@@ -146,75 +148,80 @@ ListPlugins.prototype.get = function (unPluginName) {
 
 // Dossier root
 const dir = {
-    'dev'  : 'dev/',
-    'dist' : 'dist/',
+    dev: 'dev/',
+    dist: 'dist/',
 
-    'assets' : 'assets/',
-    'app'    : 'app/'
-}
+    assets: 'assets/',
+    app: 'app/',
+};
 
 // Chemin d'origine
 const source = {
-    'app_images' : dir.app + 'images/**/',
-    'app_icons'  : dir.app + 'icons/',
-    'svg'        : dir.assets + 'images/svg/**/',
-    'images'     : dir.assets + 'images/**/',
-    'sass'       : dir.assets + 'styles/**/',
-    'css'        : dir.assets + 'styles/**/',
-    'js'         : dir.assets + 'scripts/**/',
-    'useref'     : '',
-    'sounds'     : dir.assets + 'sounds/**/',
-    'fonts'      : dir.assets + 'fonts/',
-    'racine'     : ''
-}
+    app_images: dir.app + 'images/**/',
+    app_icons: dir.app + 'icons/',
+    svg: dir.assets + 'images/svg/**/',
+    images: dir.assets + 'images/**/',
+    sass: dir.assets + 'styles/**/',
+    css: dir.assets + 'styles/**/',
+    js: dir.assets + 'scripts/**/',
+    useref: 'views/',
+    sounds: dir.assets + 'sounds/**/',
+    fonts: dir.assets + 'fonts/',
+    racine: '',
+};
 
 // Chemin de destination
 const dest = {
-    'app_images' : dir.app + 'images/',
-    'app_icons'  : dir.app + 'icons/',
-    'svg'        : dir.assets + 'images/sprites/',
-    'images'     : dir.assets + 'images/',
-    'sass'       : dir.assets + 'styles/',
-    'css'        : dir.assets + 'styles/',
-    'js'         : dir.assets + 'scripts/',
-    'useref'     : '',
-    'sounds'     : dir.assets + 'sounds/',
-    'fonts'      : dir.assets + 'fonts/'
-}
+    app_images: dir.app + 'images/',
+    app_icons: dir.app + 'icons/',
+    svg: dir.assets + 'images/sprites/',
+    images: dir.assets + 'images/',
+    sass: dir.assets + 'styles/',
+    css: dir.assets + 'styles/',
+    js: dir.assets + 'scripts/',
+    useref: '',
+    sounds: dir.assets + 'sounds/',
+    fonts: dir.assets + 'fonts/',
+};
 
 // Fichiers d'origine
+// prettier-ignore
 const filesIn = {
-    'useref'       : '*.html',
-    'index'        : 'index.html',
-    'js'           : '*.js',
-    'css'          : '*.css',
-    'images'       : '*.+(png|jpg|gif|jpeg)',
-    'other_images' : '*.+(svg)',
-    'favicon'      : 'favicon.png',
-    'svg'          : '*.svg',
-    'icons'        : '*.png',
-    'sass'         : '*.sass',
-    'sounds'       : '*.+(mp3|flac)',
-    'fonts'        : '*',
-    'racine'       : '+(*.+(html|htaccess)|robots.txt|sitemap.xml|manifest.json|create_zip.bat)'
-}
+    useref      : '*.html',
+    index       : 'index.html',
+    js          : '*.js',
+    css         : '*.css',
+    html         : '*.html',
+    images      : '*.+(png|jpg|gif|jpeg)',
+    other_images: '*.+(svg)',
+    favicon     : 'favicon.png',
+    svg         : '*.svg',
+    icons       : '*.png',
+    sass        : '*.sass',
+    sounds      : '*.+(mp3|flac)',
+    fonts       : '*',
+    racine      : '+(*.+(html|htaccess)|robots.txt|sitemap.xml|manifest.json|create_zip.bat)',
+};
 
 // Fichiers de sortie
 const fileOut = {
-    'svgExt': '.svg', // Extension pour les sprites svg
-    'minExt': '' // Ajout d'extension pour les fichiers minimisés
-}
+    svgExt: '.svg', // Extension pour les sprites svg
+    minExt: '', // Ajout d'extension pour les fichiers minimisés
+};
 
 // Groupe des taches
 const groupTasks = {
     // Tâche app : Utile pour ajouter l'application sur le store
-    app : ['app:images'],
+    app: ['app:images'],
     // Tâche build : Utile pour exécuter l'application lors des tests
-    build : ['svg'],
+    build: ['svg'],
+    useref: ['min:useref', 'min:useref2'],
+    min: ['min:images', 'min:js', 'min:css', 'useref'],
+    copy: ['copy:racine'],
     // Tâche dist : Compresse et copie l'ensemble des fichiers pour la distribution
-    dist : ['clean', 'app', 'build', 'copy:racine', 'copy:sounds', 'min:images', 'min:js', 'min:css', 'archive'],
+    dist: ['clean', 'app', 'build', 'copy', 'min', 'archive'],
     // Tâche par défaut
-    default : ['dist']
+    default: ['dist'],
 };
 
 let tabWatch = ['sass', 'min:images']; // Tache à écouter // TODO Array( files, tasks to call )
@@ -226,15 +233,35 @@ let tabWatch = ['sass', 'min:images']; // Tache à écouter // TODO Array( files
 */
 
 // Compression des fichiers js
-let tabJs     = [dir.dev + source.js + filesIn.js];  // Fichiers js à compresser, par défaut on les prend tous
-let jsInIndex = [];                                  // Afin de ne pas le prendre en compte dans les fichiers js de l'index car compressés via useref
+let tabJs = [dir.dev + source.js + filesIn.js]; // Fichiers js à compresser, par défaut on les prend tous
+let jsInIndex = []; // Afin de ne pas le prendre en compte dans les fichiers js de l'index car compressés via useref
 // Compression des fichiers css
-let tabCss     = [dir.dev + source.css + filesIn.css];  // Fichiers css à compresser, par défaut on les prend tous
-let cssInIndex = [];                                    // Afin de ne pas le prendre en compte dans les fichiers css de l'index car compressés via useref
+let tabCss = [dir.dev + source.css + filesIn.css]; // Fichiers css à compresser, par défaut on les prend tous
+let cssInIndex = []; // Afin de ne pas le prendre en compte dans les fichiers css de l'index car compressés via useref
 
 // On crée l'objet pour gérer les plugins
-let lesPlugins = new ListPlugins('chalk', 'gulp-load-plugins', 'gulp-plumber', 'gulp-imagemin', 'gulp-cache', 'gulp-svg-sprite', 'del', 'child_process', 'gulp-rename', 'gulp-minify-css',
-    'gulp-if', 'gulp-terser', 'gulp-svgmin', 'gulp-cheerio', 'gulp-replace', 'imagemin-jpegtran', 'merge-stream', 'path', 'useref', 'glob');
+let lesPlugins = new ListPlugins(
+    'chalk',
+    'gulp-load-plugins',
+    'gulp-plumber',
+    'gulp-imagemin',
+    'gulp-cache',
+    'gulp-svg-sprite',
+    'del',
+    'child_process',
+    'gulp-rename',
+    'gulp-minify-css',
+    'gulp-if',
+    'gulp-terser',
+    'gulp-svgmin',
+    'gulp-cheerio',
+    'gulp-replace',
+    'imagemin-jpegtran',
+    'merge-stream',
+    'path',
+    'gulp-useref',
+    'glob',
+);
 
 // Préfixer pour le CSS
 var AUTOPREFIXER_BROWSERS = [
@@ -246,7 +273,7 @@ var AUTOPREFIXER_BROWSERS = [
     'opera >= 23',
     'ios >= 7',
     'android >= 4.4',
-    'bb >= 10'
+    'bb >= 10',
 ];
 
 // Permet de changer la couleur du texte dans la console
@@ -256,20 +283,31 @@ const color = lesPlugins.get('chalk');
  ** Liste des fonctions                             *
  ***************************************************/
 
-// Permet de créer une tache vide lorsque les plugins requis ne sont pas installés
-const createEmptyTask = function (taskName) {
-    gulp.task(taskName, function (done) {
-        console.log(color.red("Certains plugins de la tache " + color.yellow(taskName) + " n'ont pas été trouvé, donc n'a pas été exécutée."));
+/**
+ * Permet de créer une tache vide lorsque les plugins requis ne sont pas installés
+ */
+const createEmptyTask = (taskName) => {
+    gulp.task(taskName, (done) => {
+        console.log(
+            color.red(
+                'Certains plugins de la tache ' +
+                    color.yellow(taskName) +
+                    " n'ont pas été trouvé, donc n'a pas été exécutée.",
+            ),
+        );
         return done();
     });
-}
+};
 
-// Vérifie si tous les plugins requis sont bien installés
+/**
+ * Vérifie si tous les plugins requis sont bien installés
+ * @returns {boolean} allGood
+ */
 const checkPluginsRequired = function () {
     let allGood = true; // Si tous les plugins sont installés, sa valeur restera à vrai
     Array.from(arguments).forEach(function (unPlugin) {
-        //console.log("Vérification pour : " + unPlugin);
-        //console.log(lesPlugins.find(unPlugin.replace(/gulp-/i, '')));
+        ////console.log("Vérification pour : " + unPlugin);
+        ////console.log(lesPlugins.find(unPlugin.replace(/gulp-/i, '')));
         // Si le plugin n'est pas trouvé ou installé
         if (!lesPlugins.find(unPlugin.replace(/gulp-/i, ''))) {
             //console.log(`Le plugin ${unPlugin} est nécessaire pour cette tâche !`);
@@ -277,7 +315,7 @@ const checkPluginsRequired = function () {
         }
     });
     return allGood;
-}
+};
 
 // Prototype Array.last()
 /*if (!Array.prototype.last) {
@@ -289,26 +327,32 @@ const checkPluginsRequired = function () {
 // Configuration pour la compression des images
 const configCompImg = [
     lesPlugins.get('imagemin').gifsicle({
-        interlaced: true
+        interlaced: true,
     }),
     lesPlugins.get('imagemin').mozjpeg({
         quality: 75,
-        progressive: true
+        progressive: true,
     }),
     lesPlugins.get('imagemin-jpegtran')({
-        progressive: true
+        progressive: true,
     }),
     lesPlugins.get('imagemin').optipng({
-        optimizationLevel: 7 //7 for max
+        optimizationLevel: 7, //7 for max
     }),
     lesPlugins.get('imagemin').svgo({
-        plugins: [{
-            removeViewBox: true
-        }, {
-            cleanupIDs: false
-        }]
-    })
-];
+        plugins: [
+            {
+                removeViewBox: true,
+            },
+            {
+                cleanupIDs: false,
+            },
+        ],
+    }),
+]; // Version réduite // Efface le cache des images
+/****************************************************
+ ** Taches liées à linstallation des plugins        *
+ ***************************************************/
 /*const configCompImg = {
     interlaced: true,
     quality: 75,
@@ -317,14 +361,9 @@ const configCompImg = [
     svgoPlugins: [{
         removeViewBox: false
     }]
-};*/ // Version réduite
-
-/****************************************************
- ** Taches liées à linstallation des plugins        *
- ***************************************************/
-
-// Efface le cache des images
-if (checkPluginsRequired('gulp-cache')) {
+};*/ if (
+    checkPluginsRequired('gulp-cache')
+) {
     gulp.task('clear-cache', function (done) {
         lesPlugins.get('cache').clearAll();
         done();
@@ -342,19 +381,28 @@ if (checkPluginsRequired('gulp-cache')) {
 // Compresse les images
 if (checkPluginsRequired('gulp-plumber', 'gulp-cache', 'gulp-imagemin')) {
     gulp.task('app:images', function () {
-        return gulp.src([dir.dev + source.app_images + filesIn.images, dir.dev + source.app_icons + filesIn.icons])
-            .pipe(lesPlugins.get('plumber')())
-            .pipe(lesPlugins.get('cache')(lesPlugins.get('imagemin')(configCompImg, {
-                verbose: true
-            })))
-            /*.pipe(lesPlugins.get('imagemin')(configCompImg, {
+        return (
+            gulp
+                .src([dir.dev + source.app_images + filesIn.images, dir.dev + source.app_icons + filesIn.icons])
+                .pipe(lesPlugins.get('plumber')())
+                .pipe(
+                    lesPlugins.get('cache')(
+                        lesPlugins.get('imagemin')(configCompImg, {
+                            verbose: true,
+                        }),
+                    ),
+                )
+                /*.pipe(lesPlugins.get('imagemin')(configCompImg, {
                 verbose: true
             }))*/
-            .pipe(gulp.dest(
-                // On retire les / du chemin de départ et d'arrivée
-                // Pour ensuite envoyer chaque fichier dans les dossiers correspondant
-                file => file.base.replace(dir.dev.replace('/', ''), dir.dist.replace('/', ''))
-            ))
+                .pipe(
+                    gulp.dest(
+                        // On retire les / du chemin de départ et d'arrivée
+                        // Pour ensuite envoyer chaque fichier dans les dossiers correspondant
+                        (file) => file.base.replace(dir.dev.replace('/', ''), dir.dist.replace('/', '')),
+                    ),
+                )
+        );
     });
 } else {
     createEmptyTask('app:images');
@@ -367,44 +415,69 @@ if (checkPluginsRequired('gulp-plumber', 'gulp-cache', 'gulp-imagemin')) {
  ***************************************************/
 
 // Unify les fichiers svg pour en faire un sprite
-if (checkPluginsRequired('gulp-plumber', 'gulp-svgmin', 'gulp-cheerio', 'gulp-svg-sprite', 'gulp-replace', 'merge-stream', 'path', 'glob')) {
-    gulp.task('svg', function () {
+if (
+    checkPluginsRequired(
+        'gulp-plumber',
+        'gulp-svgmin',
+        'gulp-cheerio',
+        'gulp-svg-sprite',
+        'gulp-replace',
+        'merge-stream',
+        'path',
+        'glob',
+    )
+) {
+    gulp.task('svg', async function (done) {
         // On utilise merge afin de nommer le svg par le nom du dossier
         // 1 dossier donnera donc 1 svg
         // Ca permet d'avoir par exemple 1 dossier pour les boutons, 1 pour les réseaux sociaux, etc
-        return lesPlugins.get('merge-stream')(lesPlugins.get('glob').sync(dir.dev + source.svg).map(function (svgDir) {
-            var svgName = lesPlugins.get('path').basename(svgDir); // On récupère le nom du dossier
-            return gulp.src(svgDir + filesIn.svg) // Récupère les fichiers
-                .pipe(lesPlugins.get('plumber')()) // Controles les erreurs
-                .pipe(lesPlugins.get('svgmin')({
-                    js2svg: {
-                        pretty: true
-                    }
-                }))
-                .pipe(lesPlugins.get('cheerio')({ // Supprime les attributs non utilisés pour la suite
-                    run: function ($) {
-                        //$('[fill]').removeAttr('fill');
-                        $('[stroke]').removeAttr('stroke');
-                        $('[style]').removeAttr('style');
-                        $('[xmlns]').removeAttr('xmlns'); // Pas utile car obligatoirement ajouté via le code
-                        $('[class]').removeAttr('class');
-                    },
-                    parserOptions: {
-                        xmlMode: true
-                    }
-                }))
-                .pipe(lesPlugins.get('replace')('&gt;', '>')) // cheerio plugin create unnecessary string '&gt;', so replace it.
-                .pipe(lesPlugins.get('svg-sprite')({ // Crée le sprite
-                    mode: {
-                        symbol: {
-                            dest: '.', // Ne pas toucher
-                            sprite: svgName + fileOut.svgExt // Le fichier porte le nom du dossier
-                        }
-                    }
-                }))
-                .pipe(gulp.dest(dir.dev + dest.svg)) // Envoi le résultat sur dev
-                .pipe(gulp.dest(dir.dist + dest.svg)); // Envoi le résultat sur dist
-        }));
+        return lesPlugins.get('merge-stream')(
+            lesPlugins
+                .get('glob')
+                .sync(dir.dev + source.svg)
+                .map(function (svgDir) {
+                    var svgName = lesPlugins.get('path').basename(svgDir); // On récupère le nom du dossier
+                    return gulp
+                        .src(svgDir + filesIn.svg) // Récupère les fichiers
+                        .pipe(lesPlugins.get('plumber')()) // Controles les erreurs
+                        .pipe(
+                            lesPlugins.get('svgmin')({
+                                js2svg: {
+                                    pretty: true,
+                                },
+                            }),
+                        )
+                        .pipe(
+                            lesPlugins.get('cheerio')({
+                                // Supprime les attributs non utilisés pour la suite
+                                run: function ($) {
+                                    //$('[fill]').removeAttr('fill');
+                                    $('[stroke]').removeAttr('stroke');
+                                    $('[style]').removeAttr('style');
+                                    $('[xmlns]').removeAttr('xmlns'); // Pas utile car obligatoirement ajouté via le code
+                                    $('[class]').removeAttr('class');
+                                },
+                                parserOptions: {
+                                    xmlMode: true,
+                                },
+                            }),
+                        )
+                        .pipe(lesPlugins.get('replace')('&gt;', '>')) // cheerio plugin create unnecessary string '&gt;', so replace it.
+                        .pipe(
+                            lesPlugins.get('svg-sprite')({
+                                // Crée le sprite
+                                mode: {
+                                    symbol: {
+                                        dest: '.', // Ne pas toucher
+                                        sprite: svgName + fileOut.svgExt, // Le fichier porte le nom du dossier
+                                    },
+                                },
+                            }),
+                        )
+                        .pipe(gulp.dest(dir.dev + dest.svg)) // Envoi le résultat sur dev
+                        .pipe(gulp.dest(dir.dist + dest.svg)); // Envoi le résultat sur dist
+                }),
+        );
     });
 } else {
     createEmptyTask('svg');
@@ -414,9 +487,10 @@ if (checkPluginsRequired('gulp-plumber', 'gulp-svgmin', 'gulp-cheerio', 'gulp-sv
 // Voir pour mettre directement dans la fonction
 if (checkPluginsRequired('gulp-sass')) {
     gulp.task('sass', function () {
-        return gulp.src(dir.dev + source.sass + filesIn.sass) // Gets all files ending with .scss in app/scss and children directories
+        return gulp
+            .src(dir.dev + source.sass + filesIn.sass) // Gets all files ending with .scss in app/scss and children directories
             .pipe(lesPlugins.get('sass')())
-            .pipe(gulp.dest(dir.dev + dest.sass))
+            .pipe(gulp.dest(dir.dev + dest.sass));
     });
 } else {
     createEmptyTask('sass');
@@ -436,7 +510,7 @@ if (checkPluginsRequired('gulp-sass')) {
 if (checkPluginsRequired('del')) {
     gulp.task('clean', function () {
         return lesPlugins.get('del')('dist');
-    })
+    });
 } else {
     createEmptyTask('clean');
 }
@@ -446,12 +520,15 @@ if (checkPluginsRequired('del')) {
 if (checkPluginsRequired('plumber', 'imagemin')) {
     gulp.task('min:images', function () {
         ////return gulp.src([dir.dev + source.images + filesIn.images, '!' + dir.dev + source.svg + filesIn.svg])
-        return gulp.src(dir.dev + source.images + filesIn.images)
+        return gulp
+            .src(dir.dev + source.images + filesIn.images)
             .pipe(lesPlugins.get('plumber')())
-            .pipe(lesPlugins.get('imagemin')({
-                interlaced: true
-            }))
-            .pipe(gulp.dest(dir.dist + dest.images))
+            .pipe(
+                lesPlugins.get('imagemin')({
+                    interlaced: true,
+                }),
+            )
+            .pipe(gulp.dest(dir.dist + dest.images));
     });
 } else {
     createEmptyTask('min:images');
@@ -459,16 +536,34 @@ if (checkPluginsRequired('plumber', 'imagemin')) {
 
 // Compression + Minimisation des js/css du fichier html
 if (checkPluginsRequired('useref', 'if', 'terser', 'minify-css')) {
-    gulp.task('min:useref', function () {
-        return gulp.src(dir.dev + source.useref + filesIn.useref)
-            .pipe(lesPlugins.get('useref')())
-            .pipe(lesPlugins.get('if')(filesIn.js, lesPlugins.get('terser')())) // pour minifier les fichiers Javascript
-            .pipe(lesPlugins.get('if')(filesIn.css, lesPlugins.get('minify-css')())) // pour minifier les fichiers CSS
-            //.pipe(gulp.dest(dir.dist))
-            .pipe(gulp.dest(dir.dist + dest.useref))
+    gulp.task('min:useref', () => {
+        return (
+            gulp
+                ////.src([dir.dev + filesIn.useref, dir.dev + source.useref + filesIn.useref])
+                .src(dir.dev + filesIn.useref)
+                .pipe(lesPlugins.get('useref')())
+                .pipe(lesPlugins.get('if')(filesIn.js, lesPlugins.get('terser')())) // pour minifier les fichiers Javascript
+                .pipe(lesPlugins.get('if')(filesIn.css, lesPlugins.get('minify-css')())) // pour minifier les fichiers CSS
+                .pipe(gulp.dest(dir.dist))
+        );
     });
 } else {
     createEmptyTask('min:useref');
+}
+if (checkPluginsRequired('useref', 'if', 'terser', 'minify-css')) {
+    gulp.task('min:useref2', () => {
+        return (
+            gulp
+                ////.src([dir.dev + filesIn.useref, dir.dev + source.useref + filesIn.useref])
+                .src(dir.dev + source.useref + filesIn.useref)
+                .pipe(lesPlugins.get('useref')())
+                .pipe(lesPlugins.get('if')(filesIn.js, lesPlugins.get('terser')())) // pour minifier les fichiers Javascript
+                .pipe(lesPlugins.get('if')(filesIn.css, lesPlugins.get('minify-css')())) // pour minifier les fichiers CSS
+                .pipe(lesPlugins.get('if')(filesIn.html, gulp.dest(dir.dist + source.useref)))
+        );
+    });
+} else {
+    createEmptyTask('min:useref2');
 }
 
 // Compression + Minimisation des js du dossier scripts
@@ -477,12 +572,17 @@ if (checkPluginsRequired('rename', 'terser')) {
         jsInIndex.forEach(function (js) {
             tabJs.push('!' + dir.dev + source.js + js);
         });
-        return gulp.src(tabJs)
-            ////.pipe(lesPlugins.get('terser')()) // pour minifier les fichiers Javascript
-            .pipe(lesPlugins.get('rename')({
-                extname: fileOut.minExt + ".js"
-            }))
-            .pipe(gulp.dest(dir.dist + dest.js))
+        return (
+            gulp
+                .src(tabJs)
+                ////.pipe(lesPlugins.get('terser')()) // pour minifier les fichiers Javascript
+                .pipe(
+                    lesPlugins.get('rename')({
+                        extname: fileOut.minExt + '.js',
+                    }),
+                )
+                .pipe(gulp.dest(dir.dist + dest.js))
+        );
     });
 } else {
     createEmptyTask('min:js');
@@ -494,12 +594,17 @@ if (checkPluginsRequired('rename')) {
         cssInIndex.forEach(function (css) {
             tabCss.push('!' + dir.dev + source.css + css);
         });
-        return gulp.src(tabCss)
-            ////.pipe(lesPlugins.get('minify-css')()) // pour minifier les fichiers Javascript
-            .pipe(lesPlugins.get('rename')({
-                extname: fileOut.minExt + ".css"
-            }))
-            .pipe(gulp.dest(dir.dist + dest.css))
+        return (
+            gulp
+                .src(tabCss)
+                ////.pipe(lesPlugins.get('minify-css')()) // pour minifier les fichiers Javascript
+                .pipe(
+                    lesPlugins.get('rename')({
+                        extname: fileOut.minExt + '.css',
+                    }),
+                )
+                .pipe(gulp.dest(dir.dist + dest.css))
+        );
     });
 } else {
     createEmptyTask('min:css');
@@ -507,20 +612,17 @@ if (checkPluginsRequired('rename')) {
 
 // Copie des fonts
 gulp.task('copy:fonts', function () {
-    return gulp.src(dir.dev + source.fonts + filesIn.fonts)
-        .pipe(gulp.dest(dir.dist + dest.fonts))
+    return gulp.src(dir.dev + source.fonts + filesIn.fonts).pipe(gulp.dest(dir.dist + dest.fonts));
 });
 
 // Copie des sons
 gulp.task('copy:sounds', function () {
-    return gulp.src(dir.dev + source.sounds + filesIn.sounds)
-        .pipe(gulp.dest(dir.dist + dest.sounds))
+    return gulp.src(dir.dev + source.sounds + filesIn.sounds).pipe(gulp.dest(dir.dist + dest.sounds));
 });
 
 // Copie des fichiers à la racine de l'application
 gulp.task('copy:racine', function () {
-    return gulp.src(dir.dev + source.racine + filesIn.racine)
-        .pipe(gulp.dest(dir.dist))
+    return gulp.src(dir.dev + source.racine + filesIn.racine).pipe(gulp.dest(dir.dist));
 });
 
 // Permet d'executer create_zip à partir du dossier dist
@@ -548,7 +650,7 @@ for (let key in groupTasks) {
 gulp.task('watch', function () {
     // Lance un watch pour chaque tache dans le tableau
     tabWatch.forEach(function (uneTache) {
-        console.log("Démarrage du watch de " + uneTache + "...");
+        console.log('Démarrage du watch de ' + uneTache + '...');
         gulp.watch(dir.dev + source[uneTache] + filesIn[uneTache], gulp.series(uneTache));
     });
 });

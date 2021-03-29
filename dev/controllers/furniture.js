@@ -1,11 +1,13 @@
 const uuid = require('uuid/v1');
 const Furniture = require('../models/Furniture');
 
+const pathImages = '/images/';
+
 exports.getAllFurniture = (req, res, next) => {
   Furniture.find().then(
     (furniture) => {
       const mappedFurniture = furniture.map((item) => {
-        item.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + item.imageUrl;
+        item.imageUrl = req.protocol + '://' + req.get('host') + pathImages + item.imageUrl;
         return item;
       });
       res.status(200).json(mappedFurniture);
@@ -23,7 +25,7 @@ exports.getOneFurniture = (req, res, next) => {
       if (!furniture) {
         return res.status(404).send(new Error('Furniture not found!'));
       }
-      furniture.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + furniture.imageUrl;
+      furniture.imageUrl = req.protocol + '://' + req.get('host') + pathImages + furniture.imageUrl;
       res.status(200).json(furniture);
     }
   ).catch(
@@ -64,7 +66,7 @@ exports.orderFurniture = (req, res, next) => {
           if (!furniture) {
             reject('Camera not found: ' + productId);
           }
-          furniture.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + furniture.imageUrl;
+          furniture.imageUrl = req.protocol + '://' + req.get('host') + pathImages + furniture.imageUrl;
           resolve(furniture);
         }
       ).catch(

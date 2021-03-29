@@ -4,12 +4,65 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
+        <title>HTML - Home</title>
+        <link rel="icon" href="favicon.ico" />
+        <!-- build:css assets/libs.min.css -->
         <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" />
-        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <!-- endbuild -->
     </head>
     <body>
-        <div class="p-3 mb-2 bg-primary text-white">.bg-primary</div>
+        <nav id="vue_nav" class="navbar navbar-expand-lg navbar-dark" style="background-color: #4169e1">
+            <!-- Navbar content -->
+            <a class="navbar-brand" :href="pathIndex">{{ website }}</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <todo-item v-for="item in navList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+                </ul>
+            </div>
+        </nav>
+        <div class="container">
+            <!-- Content here -->
+            <div class="card-group">
+                <div class="card">
+                    <img class="card-img-top" src="..." alt="Card image cap" />
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">
+                            This is a wider card with supporting text below as a natural lead-in to additional content.
+                            This content is a little bit longer.
+                        </p>
+                        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    </div>
+                </div>
+            </div>
+            <div id="app-5">
+                <p>{{ message }}</p>
+                <button v-on:click="reverseMessage" class="btn btn-success">Reverse Message</button>
+            </div>
+            <div id="app-3">
+                <p v-if="seen">Maintenant vous me voyez</p>
+            </div>
+        </div>
+        <!-- build:js assets/libs.min.js -->
+        <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../node_modules/vue/dist/vue.min.js"></script>
+        <!-- endbuild -->
+        <script>let idPage = 0;</script>
+        <!-- build:js assets/app.min.js -->
+        <script src="assets/scripts/tuto_vue.js"></script>
+        <script src="assets/scripts/vue.js"></script>
+        <!-- endbuild -->
     </body>
 </html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>HTML - Panier</title>
+        <link rel="icon" href="../favicon.ico" />
+        <!-- build:css ../assets/libs.min.css -->
+        <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+        <!-- endbuild -->
+    </head>
+    <body>
+        <nav id="vue_nav" class="navbar navbar-expand-lg navbar-dark" style="background-color: #4169e1">
+            <!-- Navbar content -->
+            <a class="navbar-brand" :href="pathIndex">{{ website }}</a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNavDropdown"
+                aria-controls="navbarNavDropdown"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <todo-item v-for="item in navList" v-bind:todo="item" v-bind:key="item.id"></todo-item>
+                </ul>
+            </div>
+        </nav>
+        <div class="p-3 mb-2 text-white">Panier</div>
+        <!-- build:js ../assets/libs.min.js -->
+        <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../../node_modules/vue/dist/vue.min.js"></script>
+        <!-- endbuild -->
+        <script>let idPage = 2;</script>
+        <!-- build:js ../assets/app.min.js -->
+        <script src="../assets/scripts/tuto_vue.js"></script>
+        <script src="../assets/scripts/vue.js"></script>
+        <!-- endbuild -->
+    </body>
+</html>

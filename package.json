@@ -4,20 +4,49 @@
     "description": "",
     "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
         "serv": "node dev/server.js",
-        "hello": "node dev/hello.js"
+        "hello": "node dev/hello.js",
+        "app": "gulp app",
+        "build": "gulp build",
+        "dist": "gulp dist"
     },
-    "author": "",
+    "author": "Forth",
     "license": "ISC",
     "dependencies": {
         "bcrypt": "^5.0.0",
         "body-parser": "^1.18.3",
-        "bootstrap": "^4.6.0",
+        "del": "^6.0.0",
+        "eslint": "^7.22.0",
+        "eslint-plugin-prettier": "^3.3.1",
         "express": "^4.16.4",
+        "glob": "^7.1.6",
+        "gulp": "^4.0.2",
+        "gulp-cache": "^1.1.3",
+        "gulp-cheerio": "^1.0.0",
+        "gulp-if": "^3.0.0",
+        "gulp-imagemin": "^7.1.0",
+        "gulp-load-plugins": "^2.0.6",
+        "gulp-minify-css": "^1.2.4",
+        "gulp-plumber": "^1.2.1",
+        "gulp-rename": "^2.0.0",
+        "gulp-replace": "^1.0.0",
+        "gulp-svg-sprite": "^1.2.19",
+        "gulp-svgmin": "^3.0.0",
+        "gulp-terser": "^2.0.1",
+        "imagemin-jpegtran": "^7.0.0",
         "jsonwebtoken": "^8.3.0",
         "mongoose": "^5.3.8",
         "mongoose-unique-validator": "^2.0.2",
+        "useref": "^1.4.3",
         "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "@prettier/plugin-php": "^0.16.2",
+        "bootstrap": "^4.6.0",
+        "bootstrap-vue": "^2.21.2",
+        "d": "^1.0.1",
+        "gulp-useref": "^5.0.0",
+        "prettier": "^2.2.1",
+        "vue": "^2.6.12"
     }
 }

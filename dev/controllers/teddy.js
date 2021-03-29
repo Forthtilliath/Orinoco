@@ -1,11 +1,13 @@
 const uuid = require('uuid/v1');
 const Teddy = require('../models/Teddy');
 
+const pathImages = '/images/';
+
 exports.getAllTeddies = (req, res, next) => {
   Teddy.find().then(
     (teddies) => {
       const mappedTeddies = teddies.map((teddy) => {
-        teddy.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + teddy.imageUrl;
+        teddy.imageUrl = req.protocol + '://' + req.get('host') + pathImages + teddy.imageUrl;
         return teddy;
       });
       res.status(200).json(mappedTeddies);
@@ -23,7 +25,7 @@ exports.getOneTeddy = (req, res, next) => {
       if (!teddy) {
         return res.status(404).send(new Error('Teddy not found!'));
       }
-      teddy.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + teddy.imageUrl;
+      teddy.imageUrl = req.protocol + '://' + req.get('host') + pathImages + teddy.imageUrl;
       res.status(200).json(teddy);
     }
   ).catch(
@@ -64,7 +66,7 @@ exports.orderTeddies = (req, res, next) => {
           if (!teddy) {
             reject('Camera not found: ' + productId);
           }
-          teddy.imageUrl = req.protocol + '://' + req.get('host') + '/images/' + teddy.imageUrl;
+          teddy.imageUrl = req.protocol + '://' + req.get('host') + pathImages + teddy.imageUrl;
           resolve(teddy);
         }
       ).catch(
